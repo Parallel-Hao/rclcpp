@@ -55,10 +55,10 @@ Node::Node(
   const std::string & namespace_,
   rclcpp::Context::SharedPtr context,
   const std::vector<std::string> & arguments,
-  const std::vector<rclcpp::Parameter> & initial_parameters,
+  const std::vector<rclcpp::Parameter> & ,
   bool use_global_arguments,
   bool use_intra_process_comms,
-  bool start_parameter_services)
+  bool )
 : node_base_(new rclcpp::node_interfaces::NodeBase(
       node_name, namespace_, context, arguments, use_global_arguments)),
   node_graph_(new rclcpp::node_interfaces::NodeGraph(node_base_.get())),
