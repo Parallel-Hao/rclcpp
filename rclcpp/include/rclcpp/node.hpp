@@ -78,7 +78,7 @@ public:
   explicit Node(
     const std::string & node_name,
     const std::string & namespace_ = "",
-    bool use_intra_process_comms = false);
+    bool use_intra_process_comms = false, bool enable_parameter = false);
 
   /// Create a node based on the node name and a rclcpp::Context.
   /**

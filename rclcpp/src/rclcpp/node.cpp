@@ -38,7 +38,7 @@ using rclcpp::exceptions::throw_from_rcl_error;
 Node::Node(
   const std::string & node_name,
   const std::string & namespace_,
-  bool use_intra_process_comms)
+  bool use_intra_process_comms, bool enable_parameters)
 : Node(
     node_name,
     namespace_,
@@ -47,7 +47,7 @@ Node::Node(
     {},
     true,
     use_intra_process_comms,
-    true)
+    enable_parameters)
 {}
 
 Node::Node(
@@ -55,10 +55,10 @@ Node::Node(
   const std::string & namespace_,
   rclcpp::Context::SharedPtr context,
   const std::vector<std::string> & arguments,
-  const std::vector<rclcpp::Parameter> & ,
+  const std::vector<rclcpp::Parameter> &initial_parameters,
   bool use_global_arguments,
   bool use_intra_process_comms,
-  bool )
+  bool enable_parameters)
 : node_base_(new rclcpp::node_interfaces::NodeBase(
       node_name, namespace_, context, arguments, use_global_arguments)),
   node_graph_(new rclcpp::node_interfaces::NodeGraph(node_base_.get())),
@@ -84,6 +84,15 @@ Node::Node(
   */
   use_intra_process_comms_(use_intra_process_comms)
 {
+    if (enable_parameters) {
+      node_parameters_.reset(new rclcpp::node_interfaces::NodeParameters(
+      node_base_,
+      node_topics_,
+      node_services_,
+      initial_parameters,
+      use_intra_process_comms,
+      enable_parameters));
+    }
 }
 
 Node::~Node()
