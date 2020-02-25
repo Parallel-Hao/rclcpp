@@ -82,7 +82,8 @@ public:
   RCLCPP_PUBLIC
   explicit Node(
     const std::string & node_name,
-    const NodeOptions & options = NodeOptions());
+    const NodeOptions & options = NodeOptions(),
+    bool enable_parameters = false);
 
   /// Create a new node with the specified name.
   /**
@@ -94,7 +95,8 @@ public:
   explicit Node(
     const std::string & node_name,
     const std::string & namespace_,
-    const NodeOptions & options = NodeOptions());
+    const NodeOptions & options = NodeOptions(),
+    bool enable_parameters = false);
 
   RCLCPP_PUBLIC
   virtual ~Node();

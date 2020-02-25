@@ -89,15 +89,15 @@ create_effective_namespace(const std::string & node_namespace, const std::string
 
 Node::Node(
   const std::string & node_name,
-  const NodeOptions & options)
-: Node(node_name, "", options)
+  const NodeOptions & options, bool enable_parameters)
+: Node(node_name, "", options, enable_parameters)
 {
 }
 
 Node::Node(
   const std::string & node_name,
   const std::string & namespace_,
-  const NodeOptions & options)
+  const NodeOptions & options, bool enable_parameters)
 : node_base_(new rclcpp::node_interfaces::NodeBase(
       node_name,
       namespace_,
@@ -116,6 +116,7 @@ Node::Node(
       node_services_,
       node_logging_
     )),
+  /*
   node_parameters_(new rclcpp::node_interfaces::NodeParameters(
       node_base_,
       node_logging_,
@@ -130,6 +131,7 @@ Node::Node(
       options.allow_undeclared_parameters(),
       options.automatically_declare_parameters_from_overrides()
     )),
+  */
   node_time_source_(new rclcpp::node_interfaces::NodeTimeSource(
       node_base_,
       node_topics_,
@@ -144,6 +146,22 @@ Node::Node(
   sub_namespace_(""),
   effective_namespace_(create_effective_namespace(this->get_namespace(), sub_namespace_))
 {
+  if (enable_parameters) {
+    node_parameters_.reset(new rclcpp::node_interfaces::NodeParameters(
+          node_base_,
+          node_logging_,
+          node_topics_,
+          node_services_,
+          node_clock_,
+          options.parameter_overrides(),
+          options.start_parameter_services(),
+          options.start_parameter_event_publisher(),
+          options.parameter_event_qos(),
+          options.parameter_event_publisher_options(),
+          options.allow_undeclared_parameters(),
+          options.automatically_declare_parameters_from_overrides()
+          ));
+  }
 }
 
 Node::Node(
