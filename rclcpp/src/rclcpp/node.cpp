@@ -131,7 +131,6 @@ Node::Node(
       options.allow_undeclared_parameters(),
       options.automatically_declare_parameters_from_overrides()
     )),
-  */
   node_time_source_(new rclcpp::node_interfaces::NodeTimeSource(
       node_base_,
       node_topics_,
@@ -141,6 +140,7 @@ Node::Node(
       node_clock_,
       node_parameters_
     )),
+  */
   node_waitables_(new rclcpp::node_interfaces::NodeWaitables(node_base_.get())),
   node_options_(options),
   sub_namespace_(""),
@@ -160,6 +160,15 @@ Node::Node(
           options.parameter_event_publisher_options(),
           options.allow_undeclared_parameters(),
           options.automatically_declare_parameters_from_overrides()
+          ));
+    node_time_source_.reset(new rclcpp::node_interfaces::NodeTimeSource(
+          node_base_,
+          node_topics_,
+          node_graph_,
+          node_services_,
+          node_logging_,
+          node_clock_,
+          node_parameters_
           ));
   }
 }
